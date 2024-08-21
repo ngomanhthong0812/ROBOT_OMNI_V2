@@ -13,8 +13,11 @@ Servo servo_trai_sau;
 Servo servo_phai_truoc;
 Servo servo_phai_sau;
 
+#define cam_bien_tay_phai A11
+#define cam_bien_tay_trai A10
+
 #define nut_do A8
-#define nut_xa A9
+#define nut_xanh A9
 
 #define pwm1_lui 7
 #define pwm1_toi 6
@@ -31,9 +34,6 @@ Servo servo_phai_sau;
 #define cb_3 45
 #define cb_4 46
 #define cb_5 47
-
-#define cam_bien_tay_phai A11
-#define cam_bien_tay_trai A10
 
 #define encoder1 2  //pwm4
 #define encoder2 3  //pwm3
@@ -91,19 +91,20 @@ void setup() {
   pinMode(encoder2, INPUT);
   digitalWrite(encoder1, HIGH);
   digitalWrite(encoder2, HIGH);
+  //  digitalWrite(encoder3,   HIGH);
+  // digitalWrite(encoder4,   HIGH);
   attachInterrupt(0, doc_encoder1, RISING);  //ngắt 0, chân 2
   attachInterrupt(1, doc_encoder2, RISING);  //ngắt 1, chân 3
   //  attachInterrupt(4, doc_encoder3, RISING);  //ngắt 4, chân 19
   // attachInterrupt(5, doc_encoder4, RISING);  //ngắt 5, chân 18
   pinMode(nut_do, INPUT);
-  pinMode(nut_xa, INPUT);
+  pinMode(nut_xanh, INPUT);
+
+  pinMode(cam_bien_tay_trai, INPUT);
+  pinMode(cam_bien_tay_phai, INPUT);
 
   for (int i = 4; i < 14; i++) { pinMode(i, OUTPUT); }
   for (int i = 30; i < 50; i++) { pinMode(i, INPUT); }
-  // pinMode(A12, INPUT);
-  // pinMode(A13, INPUT);
-  // pinMode(A14, INPUT);
-  // pinMode(A15, INPUT);
 
   for (int i = 4; i < 14; i++) { analogWrite(i, 0); }
   analogWrite(pwm1_toi, 0);
@@ -115,9 +116,6 @@ void setup() {
   servo_trai_sau.attach(A14);
   servo_phai_truoc.attach(A13);
   servo_phai_sau.attach(A12);
-  // servo5.attach(A1);
-  // servo6.attach(A2);
-  // khoi_dong_servo();
   // delay(2000);
 }
 /*
@@ -128,7 +126,26 @@ void setup() {
  */
 
 void loop() {
-  // doi_do();
+  // int cb_do = digitalRead(nut_do);
+  // int cb_xanh = digitalRead(nut_xanh);
+  // if(cb_do == 1) san_do();
+  // if(cb_xanh == 1) san_xanh();
+  // san_do();
+
+
+
+
+
+
+
+  // int cb_tay_trai = digitalRead(cam_bien_tay_trai); // Đọc giá trị từ cảm biến tay trái
+
+  // if (cb_tay_trai == HIGH) {
+  //   // Thực hiện hành động khi nút được nhấn
+  // } else {
+
+  // }
+
   servo_phai_truoc.write(83);
 }
 
@@ -200,7 +217,10 @@ void doi_xanh() {
   delay(500);
   chay_do_encoder(chay_toi, 3750, 1, 100, 100);
   delay(500);
-  chay_bo_qua_2_line(chay_phai, 100, 100, cb_2, cb_3);
+  chay_bat_line_doc_cam_bien(chay_phai, 100, 103, cb_2, cb_3);
+  delay(100);
+  chay_do_encoder(chay_phai, 3000, 1, 100, 103);
+  chay_bat_line_doc_cam_bien(chay_phai, 100, 103, cb_2, cb_3);
   delay(500);
 
   quay_robo_90_trai(150);
@@ -213,27 +233,59 @@ void doi_xanh() {
 void doi_do() {
   //Xuất phát gắp bóng bỏ 2 bóng vào silo3
   //*******
+  // xuất phát đặt 2 tay gắp bóng đối xứng nhau
+  //  hạ cạnh tay = nâng cánh tay còn lại 100%
   chay_do_encoder(chay_toi, 5850, 1, 103, 100);
   delay(100);
   chay_bat_line_doc_cam_bien(chay_cheo_trai, 100, 100, cb_2, cb_3);
 
   delay(500);
   quay_robo_90_phai(150);
-  // => mở cánh tay và phải
-  //tay trái //  => hạ cạnh tay => kẹp bóng => nâng tay lên 50%
+  /*
+  ----
+  => mở cánh tay và phải
+  tay trái //  => hạ cạnh tay => kẹp bóng => nâng tay lên 50%
+  ----
+  */
   delay(500);
   quay_robo_180_phai(150);
-  //tay phải
-  //  => hạ cạnh tay => kẹp bóng => nâng tay lên 50%
+  /*
+  ----
+  tay phải //  => hạ cạnh tay => kẹp bóng => nâng tay lên 50%
+  ----
+  */
   delay(500);
   chay_do_encoder(chay_toi, 3900, 1, 103, 100);
   delay(500);
   chay_bat_line_doc_cam_bien(chay_trai, 103, 100, cb_2, cb_3);
   delay(500);
 
+  /*
+  ----
+  tay trái // nâng tay lên 100%
+  ----
+  */
   quay_robo_90_phai(150);
   delay(500);
-  quay_robo_180_phai(150);
+  /*
+  ----
+  tay trái //  => thả bóng
+  ----
+  */
+  quay_robo_90_phai(150);
+  delay(500);
+  /*
+  ----
+  tay phải // nâng tay lên 100%
+  ----
+  */
+  quay_robo_90_phai(150);
+  delay(500);
+  /*
+  ----
+  tay phải //  => thả bóng
+  ----
+  */
   //*******
 
 
@@ -241,6 +293,11 @@ void doi_do() {
   //*******
   delay(500);
   quay_robo_phai(150, 2200);
+  /*
+  ----
+   tay trái // nâng tay lên 50%
+  ----
+  */
   delay(500);
   chay_do_encoder(chay_toi, 50, 1, 125, 125);
   delay(500);
@@ -248,8 +305,19 @@ void doi_do() {
 
   delay(500);
   quay_robo_90_phai(150);
+  /*
+  ----
+  => mở cánh tay và phải
+  tay trái //  => hạ cạnh tay => kẹp bóng => nâng tay lên 50%
+  ----
+  */
   delay(500);
   quay_robo_180_phai(150);
+  /*
+  ----
+  tay phải //  => hạ cạnh tay => kẹp bóng => nâng tay lên 50%
+  ----
+  */
   delay(500);
   chay_do_encoder(chay_toi, 4100, 1, 108, 100);
   delay(500);
