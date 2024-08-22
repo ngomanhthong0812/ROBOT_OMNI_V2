@@ -8,8 +8,8 @@
 //trái:   41-40-39-38-37-36
 #include <Servo.h>
 
-Servo servo_trai_truoc;
 Servo servo_trai_sau;
+Servo servo_trai_truoc;
 Servo servo_phai_truoc;
 Servo servo_phai_sau;
 
@@ -28,6 +28,9 @@ Servo servo_phai_sau;
 #define pwm4_lui 9
 #define pwm4_toi 8
 
+#define pwm_nang_tay_lui 12
+#define pwm_nang_tay_toi 13
+
 #define cb_0 42
 #define cb_1 43
 #define cb_2 44
@@ -35,8 +38,9 @@ Servo servo_phai_sau;
 #define cb_4 46
 #define cb_5 47
 
-#define encoder1 2  //pwm4
-#define encoder2 3  //pwm3
+#define encoder1 2           //pwm4
+#define encoder2 3           //pwm3
+#define encoder_nang_tay 18  //pwm_nang_tay
 // #define encoder3     18
 // #define encoder4     19
 
@@ -51,6 +55,9 @@ Servo servo_phai_sau;
 #define chay_xoay_phai 7
 #define chay_xoay_trai 8
 #define dung_dong_co_chay 9
+
+#define nang_tay_trai 10
+#define nang_tay_phai 11
 
 #define quay_trai 1
 #define quay_phai 2
@@ -67,7 +74,7 @@ int PID_value_1, PID_phai_1, PID_trai_1;
 int gia_tri_dau_phai = 180;
 int gia_tri_dau_trai = 180;
 float goc_dat = 281;
-volatile int xung_encoder1, xung_encoder2, xung_encoder3, xung_encoder4;
+volatile int xung_encoder1, xung_encoder2, xung_encoder3, xung_encoder4, xung_encoder_nang_tay;
 
 void doc_encoder1()  //ngắt 0, chân 2
 {
@@ -85,23 +92,32 @@ void doc_encoder4()  //ngắt 5, chân 18
 {
   xung_encoder4++;
 }
+void doc_encoder_nang_tay()  //ngắt 5, chân 18
+{
+  xung_encoder_nang_tay++;
+}
 void setup() {
   Serial.begin(9600);
   pinMode(encoder1, INPUT);
   pinMode(encoder2, INPUT);
+  pinMode(encoder_nang_tay, INPUT);
   digitalWrite(encoder1, HIGH);
   digitalWrite(encoder2, HIGH);
+  digitalWrite(encoder_nang_tay, HIGH);
   //  digitalWrite(encoder3,   HIGH);
   // digitalWrite(encoder4,   HIGH);
-  attachInterrupt(0, doc_encoder1, RISING);  //ngắt 0, chân 2
-  attachInterrupt(1, doc_encoder2, RISING);  //ngắt 1, chân 3
+  attachInterrupt(0, doc_encoder1, RISING);          //ngắt 0, chân 2
+  attachInterrupt(1, doc_encoder2, RISING);          //ngắt 1, chân 3
+  attachInterrupt(1, doc_encoder_nang_tay, RISING);  //ngắt 1, chân 3
   //  attachInterrupt(4, doc_encoder3, RISING);  //ngắt 4, chân 19
   // attachInterrupt(5, doc_encoder4, RISING);  //ngắt 5, chân 18
   pinMode(nut_do, INPUT);
   pinMode(nut_xanh, INPUT);
+  pinMode(cam_bien_tay_trai, INPUT_PULLUP);
+  pinMode(cam_bien_tay_phai, INPUT_PULLUP);
 
-  pinMode(cam_bien_tay_trai, INPUT);
-  pinMode(cam_bien_tay_phai, INPUT);
+  // pinMode(cam_bien_tay_trai, INPUT);
+  // pinMode(cam_bien_tay_phai, INPUT);
 
   for (int i = 4; i < 14; i++) { pinMode(i, OUTPUT); }
   for (int i = 30; i < 50; i++) { pinMode(i, INPUT); }
@@ -112,10 +128,10 @@ void setup() {
   analogWrite(pwm3_toi, 0);
   analogWrite(pwm4_toi, 0);
   // delay(500);
-  servo_trai_truoc.attach(A15);
-  servo_trai_sau.attach(A14);
-  servo_phai_truoc.attach(A13);
-  servo_phai_sau.attach(A12);
+  servo_trai_truoc.attach(38);
+  servo_trai_sau.attach(39);
+  servo_phai_truoc.attach(40);
+  servo_phai_sau.attach(41);
   // delay(2000);
 }
 /*
@@ -133,20 +149,23 @@ void loop() {
   // san_do();
 
 
+  // => trước khi xuất phát nâng 2 tay sao cho nó đối xứng
+  mo_tay_trai();
+  delay(200);
+  nang_tay_phai_doc_CTHT();
+  delay(200);
+  kep_tay_trai();
+  nang_tay_encoder(nang_tay_trai, 1);  //=> nâng lên 50%
 
+  mo_tay_phai();
+  delay(200);
+  nang_tay_trai_doc_CTHT();
+  delay(200);
+  kep_tay_phai();
+  nang_tay_encoder(nang_tay_phai, 1);  //=> nâng lên 50%
 
-
-
-
-  // int cb_tay_trai = digitalRead(cam_bien_tay_trai); // Đọc giá trị từ cảm biến tay trái
-
-  // if (cb_tay_trai == HIGH) {
-  //   // Thực hiện hành động khi nút được nhấn
-  // } else {
-
-  // }
-
-  servo_phai_truoc.write(83);
+  while (1)
+    ;
 }
 
 void doi_xanh() {
@@ -349,9 +368,9 @@ void doi_do() {
   chay_bat_line_doc_cam_bien(chay_phai, 108, 100, cb_2, cb_3);
 
   delay(500);
-  quay_robo_90_phai(150);
+  quay_robo_90_phai(150);  //=> không lấy bóng
   delay(500);
-  quay_robo_180_phai(150);
+  quay_robo_180_phai(150);  //=>lấy bóng
   delay(500);
   chay_do_encoder(chay_toi, 4000, 1, 103, 100);
   delay(500);
@@ -361,9 +380,9 @@ void doi_do() {
   chay_bat_line_doc_cam_bien(chay_trai, 100, 103, cb_2, cb_3);
   delay(500);
 
-  quay_robo_90_phai(150);
+  quay_robo_90_trai(150);
   delay(500);
-  quay_robo_180_phai(150);
+  quay_robo_180_trai(150);
   //*******
 
   while (1)
