@@ -11,12 +11,18 @@ void dk_dung_dong_co_nang() {
   analogWrite(pwm_nang_tay_toi, 0);
 }
 void nang_50_tay_trai() {
-  dk_nang_tay_trai();
-  delay(5000);
-  dk_dung_dong_co_nang();
+    nang_tay_encoder(nang_tay_trai, 2200);
 }
 void nang_50_tay_phai() {
   dk_nang_tay_phai();
-  delay(7000);
+  delay(6800);
+  dk_dung_dong_co_nang();
+}
+void nang_70_tay_trai() {
+ nang_tay_encoder(nang_tay_trai, 3000);
+}
+void nang_70_tay_phai() {
+  dk_nang_tay_phai();
+  delay(10000);
   dk_dung_dong_co_nang();
 }

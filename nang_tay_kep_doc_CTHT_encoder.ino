@@ -47,9 +47,9 @@ void khoi_dong_nang_tay() {
   int cb_tay_trai = digitalRead(cam_bien_tay_trai);
   int cb_tay_phai = digitalRead(cam_bien_tay_phai);
   if (cb_tay_trai == 0) {
-    nang_tay_encoder(nang_tay_trai, 5);  //=> nâng tay trái 50%
+    nang_50_tay_trai();
   }
   if (cb_tay_phai == 0) {
-    nang_tay_encoder(nang_tay_phai, 5);  //=> nâng tay phải 50%
+    nang_50_tay_phai();
   }
 }
