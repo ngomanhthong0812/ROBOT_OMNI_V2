@@ -108,7 +108,7 @@ void setup() {
   // digitalWrite(encoder4,   HIGH);
   attachInterrupt(0, doc_encoder1, RISING);          //ngắt 0, chân 2
   attachInterrupt(1, doc_encoder2, RISING);          //ngắt 1, chân 3
-  attachInterrupt(1, doc_encoder_nang_tay, RISING);  //ngắt 1, chân 3
+  attachInterrupt(5, doc_encoder_nang_tay, RISING);  //ngắt 1, chân 3
   //  attachInterrupt(4, doc_encoder3, RISING);  //ngắt 4, chân 19
   // attachInterrupt(5, doc_encoder4, RISING);  //ngắt 5, chân 18
   pinMode(nut_do, INPUT);
@@ -133,6 +133,9 @@ void setup() {
   servo_phai_truoc.attach(40);
   servo_phai_sau.attach(41);
   // delay(2000);
+
+  mo_tay_trai();
+  mo_tay_phai();
 }
 /*
  CÁC ĐỊNH NGHĨA:
@@ -146,23 +149,37 @@ void loop() {
   // int cb_xanh = digitalRead(nut_xanh);
   // if(cb_do == 1) san_do();
   // if(cb_xanh == 1) san_xanh();
-  // san_do();
+  doi_do();
 
+
+  // nang_50_tay_trai();
+  // nang_50_tay_phai();
+
+  // dk_nang_tay_phai();
+  // dk_nang_tay_trai();
 
   // => trước khi xuất phát nâng 2 tay sao cho nó đối xứng
-  mo_tay_trai();
-  delay(200);
-  nang_tay_phai_doc_CTHT();
-  delay(200);
-  kep_tay_trai();
-  nang_tay_encoder(nang_tay_trai, 1);  //=> nâng lên 50%
 
-  mo_tay_phai();
-  delay(200);
-  nang_tay_trai_doc_CTHT();
-  delay(200);
-  kep_tay_phai();
-  nang_tay_encoder(nang_tay_phai, 1);  //=> nâng lên 50%
+
+  // // delay(200);
+  // nang_tay_phai_doc_CTHT();
+  // // delay(200);
+  // // kep_tay_trai();
+  // // // delay(200);
+  // // // nang_tay_encoder(nang_tay_trai, 1);  //=> nâng lên 50%
+
+
+  // // delay(200);
+  // // nang_tay_trai_doc_CTHT();
+  // // delay(200);
+  // kep_tay_phai();
+  // // delay(200);
+  // // nang_tay_encoder(nang_tay_phai, 1);  //=> nâng lên 50%
+
+  // thuc_hien_kep_bong_tay_trai_va_kiem_tra();
+  // // nang_tay_encoder(nang_tay_trai, 1);  //=> nâng lên 50%
+
+
 
   while (1)
     ;
@@ -252,8 +269,6 @@ void doi_xanh() {
 void doi_do() {
   //Xuất phát gắp bóng bỏ 2 bóng vào silo3
   //*******
-  // xuất phát đặt 2 tay gắp bóng đối xứng nhau
-  //  hạ cạnh tay = nâng cánh tay còn lại 100%
   chay_do_encoder(chay_toi, 5850, 1, 103, 100);
   delay(100);
   chay_bat_line_doc_cam_bien(chay_cheo_trai, 100, 100, cb_2, cb_3);
@@ -266,13 +281,21 @@ void doi_do() {
   tay trái //  => hạ cạnh tay => kẹp bóng => nâng tay lên 50%
   ----
   */
+  nang_tay_phai_doc_CTHT();
+  delay(500);
+  kep_tay_trai();
+  delay(500);
+  nang_50_tay_trai();
+
   delay(500);
   quay_robo_180_phai(150);
-  /*
-  ----
-  tay phải //  => hạ cạnh tay => kẹp bóng => nâng tay lên 50%
-  ----
-  */
+
+  nang_tay_trai_doc_CTHT();
+  delay(500);
+  kep_tay_phai();
+  delay(500);
+  nang_50_tay_phai();
+
   delay(500);
   chay_do_encoder(chay_toi, 3900, 1, 103, 100);
   delay(500);
@@ -284,6 +307,7 @@ void doi_do() {
   tay trái // nâng tay lên 100%
   ----
   */
+  nang_tay_trai_doc_CTHT();
   quay_robo_90_phai(150);
   delay(500);
   /*
@@ -291,6 +315,7 @@ void doi_do() {
   tay trái //  => thả bóng
   ----
   */
+  mo_tay_trai();
   quay_robo_90_phai(150);
   delay(500);
   /*
@@ -298,8 +323,10 @@ void doi_do() {
   tay phải // nâng tay lên 100%
   ----
   */
+  nang_tay_phai_doc_CTHT();
   quay_robo_90_phai(150);
   delay(500);
+  mo_tay_phai();
   /*
   ----
   tay phải //  => thả bóng
@@ -312,6 +339,8 @@ void doi_do() {
   //*******
   delay(500);
   quay_robo_phai(150, 2200);
+
+  nang_50_tay_trai();
   /*
   ----
    tay trái // nâng tay lên 50%
@@ -330,6 +359,9 @@ void doi_do() {
   tay trái //  => hạ cạnh tay => kẹp bóng => nâng tay lên 50%
   ----
   */
+  nang_tay_phai_doc_CTHT();
+  kep_tay_trai();
+  nang_50_tay_trai();
   delay(500);
   quay_robo_180_phai(150);
   /*
@@ -337,20 +369,29 @@ void doi_do() {
   tay phải //  => hạ cạnh tay => kẹp bóng => nâng tay lên 50%
   ----
   */
+
+  nang_tay_trai_doc_CTHT();
+  kep_tay_phai();
+  nang_50_tay_phai();
+
   delay(500);
   chay_do_encoder(chay_toi, 4100, 1, 108, 100);
   delay(500);
   chay_bat_line_doc_cam_bien(chay_trai, 103, 100, cb_2, cb_3);
   delay(500);
 
+  nang_tay_trai_doc_CTHT();
   quay_robo_90_phai(150);
   delay(500);
+  mo_tay_trai();
   quay_robo_90_trai(150);
+  nang_tay_phai_doc_CTHT();
   delay(500);
   chay_do_encoder(chay_trai, 100, 1, 125, 125);
   chay_bat_line_doc_cam_bien(chay_trai, 103, 100, cb_2, cb_3);
   delay(500);
   quay_robo_90_trai(150);
+  mo_tay_phai();
   //*******
 
   //Chạy về gắp 1 bóng bỏ bóng vào slio1

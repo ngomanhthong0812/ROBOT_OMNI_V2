@@ -1,4 +1,3 @@
-//CTHT => công tắc hành trình
 void nang_tay_trai_doc_CTHT() {
   int cb_tay_trai = 1;  // Đọc giá trị từ cảm biến tay trái
   int cb_tay_phai = 1;  // Đọc giá trị từ cảm biến tay phải
@@ -31,9 +30,11 @@ void nang_tay_encoder(int huong_tay_nang, int encoder_dat) {
     switch (huong_tay_nang) {
       case nang_tay_trai:
         dk_nang_tay_trai();
+        Serial.println(xung_encoder_nang_tay);
         break;
       case nang_tay_phai:
         dk_nang_tay_phai();
+        Serial.println(xung_encoder_nang_tay);
         break;
       default:
         break;
@@ -46,9 +47,9 @@ void khoi_dong_nang_tay() {
   int cb_tay_trai = digitalRead(cam_bien_tay_trai);
   int cb_tay_phai = digitalRead(cam_bien_tay_phai);
   if (cb_tay_trai == 0) {
-    nang_tay_encoder(nang_tay_trai, 10);  //=> nâng tay trái 50%
+    nang_tay_encoder(nang_tay_trai, 5);  //=> nâng tay trái 50%
   }
   if (cb_tay_phai == 0) {
-    nang_tay_encoder(nang_tay_phai, 10);  //=> nâng tay phải 50%
+    nang_tay_encoder(nang_tay_phai, 5);  //=> nâng tay phải 50%
   }
 }
