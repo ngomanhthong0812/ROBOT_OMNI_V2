@@ -126,8 +126,8 @@ void setup() {
   pinMode(cam_bien_tay_trai, INPUT_PULLUP);
   pinMode(cam_bien_tay_phai, INPUT_PULLUP);
   pinMode(cb_phat_hien_bong, INPUT_PULLUP);
-  pinMode(cb_dau_phai, INPUT_PULLUP);
-  pinMode(cb_dau_trai, INPUT_PULLUP);
+  // pinMode(cb_dau_phai, INPUT_PULLUP);
+  // pinMode(cb_dau_trai, INPUT_PULLUP);
 
   for (int i = 4; i < 14; i++) { pinMode(i, OUTPUT); }
   for (int i = 30; i < 50; i++) { pinMode(i, INPUT); }
@@ -171,11 +171,10 @@ void loop() {
   // delay(2000);
   // nang_tay_trai_doc_CTHT();
 
-  // int cb_123 = digitalRead(cb_phat_hien_bong);
-  // Serial.print(cb_123);
+  int cb_123 = digitalRead(cb_phat_hien_bong);
+  Serial.println(cb_123);
 
-  int cb_dau_t = digitalRead(cb_dau_trai);
-  Serial.println(cb_dau_t);
+  // xu_ly_hanh_dong_lay_bong();
 
 
 

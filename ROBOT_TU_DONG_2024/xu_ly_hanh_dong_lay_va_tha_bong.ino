@@ -1,12 +1,13 @@
 void xu_ly_hanh_dong_lay_bong() {
   kiem_tra_co_bong();
-  quay_robo_90_phai(150);
-  nang_tay_phai_doc_CTHT();
-  kep_tay_trai();
-  nang_50_tay_trai();
-  quay_robo_180_phai(150);
-  nang_tay_trai_doc_CTHT();
-  kep_tay_phai();
+  delay(1000);
+  // quay_robo_90_phai(150);
+  // nang_tay_phai_doc_CTHT();
+  // kep_tay_trai();
+  // nang_50_tay_trai();
+  // quay_robo_180_phai(150);
+  // nang_tay_trai_doc_CTHT();
+  // kep_tay_phai();
 }
 void xu_ly_hanh_dong_chay_tha_bong(int silo_can_tha_bong) {
   quay_robo_90_phai(150);
