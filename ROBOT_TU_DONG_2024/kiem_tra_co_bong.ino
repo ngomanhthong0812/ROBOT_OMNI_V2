@@ -6,5 +6,4 @@ void kiem_tra_co_bong() {
     Serial.println("chk co bong");
   } while (cb_phb == 0);
     Serial.println("co bong");
-
 }

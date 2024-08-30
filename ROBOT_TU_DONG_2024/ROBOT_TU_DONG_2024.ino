@@ -16,8 +16,11 @@ Servo servo_phai_sau;
 #define cam_bien_tay_phai A11
 #define cam_bien_tay_trai A10
 
-#define nut_do A8
-#define nut_xanh A9
+#define nut_do 24
+#define nut_xanh 22
+
+#define ct_trai 28
+#define ct_phai 26
 
 #define pwm1_lui 7
 #define pwm1_toi 6
@@ -39,8 +42,8 @@ Servo servo_phai_sau;
 #define cb_5 47
 
 #define cb_phat_hien_bong A3
-#define cb_dau_phai A9
-#define cb_dau_trai A5
+#define cb_dau_phai A1
+#define cb_dau_trai A2
 
 
 
@@ -68,9 +71,16 @@ Servo servo_phai_sau;
 #define quay_trai 1
 #define quay_phai 2
 
+#define san_do 30
+#define san_xanh 31
+
 int silo_1_2 = 12;
 int silo_2_3 = 23;
 int silo_3 = 3;
+int silo_2 = 2;
+int silo_3_1 = 31;
+int silo_2_1 = 21;
+
 
 int cho_phep = 0;
 int sensor[6] = { 0, 0, 0, 0, 0, 0 };
@@ -121,13 +131,14 @@ void setup() {
   attachInterrupt(5, doc_encoder_nang_tay, RISING);  //ngắt 1, chân 3
   //  attachInterrupt(4, doc_encoder3, RISING);  //ngắt 4, chân 19
   // attachInterrupt(5, doc_encoder4, RISING);  //ngắt 5, chân 18
-  pinMode(nut_do, INPUT);
-  pinMode(nut_xanh, INPUT);
+  pinMode(nut_do, INPUT_PULLUP);
+  pinMode(nut_xanh, INPUT_PULLUP);
   pinMode(cam_bien_tay_trai, INPUT_PULLUP);
   pinMode(cam_bien_tay_phai, INPUT_PULLUP);
   pinMode(cb_phat_hien_bong, INPUT_PULLUP);
-  // pinMode(cb_dau_phai, INPUT_PULLUP);
-  // pinMode(cb_dau_trai, INPUT_PULLUP);
+
+  pinMode(ct_trai, INPUT_PULLUP);
+  pinMode(ct_phai, INPUT_PULLUP);
 
   for (int i = 4; i < 14; i++) { pinMode(i, OUTPUT); }
   for (int i = 30; i < 50; i++) { pinMode(i, INPUT); }
@@ -144,8 +155,16 @@ void setup() {
   servo_phai_sau.attach(41);
   // delay(2000);
 
+  kep_tay_phai();
+  kep_tay_trai();
+  delay(100);
   mo_tay_trai();
   mo_tay_phai();
+
+  khoi_dong_nang_tay();
+
+  pinMode(cb_dau_phai, INPUT_PULLUP);
+  pinMode(cb_dau_trai, INPUT_PULLUP);
 }
 /*
  CÁC ĐỊNH NGHĨA:
@@ -154,117 +173,38 @@ void setup() {
 
  */
 
+void xu_ly_chien_thuat(int ten_san) {
+  int cb_trai = digitalRead(ct_trai);
+  int cb_phai = digitalRead(ct_phai);
+  switch (ten_san) {
+    case san_do:
+      if (cb_trai == 0 && cb_phai == 1) {  // Xử lý khi cb_trai tắt và cb_phai bật
+        ct_1_doi_do();
+      } else if (cb_trai == 1 && cb_phai == 0) {  // Xử lý khi cb_trai bật và cb_phai tắt
+        ct_2_doi_do();
+      } else if (cb_trai == 0 && cb_phai == 0) {  // Xử lý khi cả cb_trai và cb_phai đều tắt
+        doi_do();
+      } else {
+        // Xử lý khi cả cb_trai và cb_phai đều bật
+      }
+      break;
+    case san_xanh:
+      if (cb_trai == 0 && cb_phai == 1) {  // Xử lý khi cb_trai tắt và cb_phai bật
+        ct_1_doi_xanh();
+      } else if (cb_trai == 1 && cb_phai == 0) {  // Xử lý khi cb_trai bật và cb_phai tắt
+        ct_2_doi_xanh();
+      } else if (cb_trai == 0 && cb_phai == 0) {  // Xử lý khi cả cb_trai và cb_phai đều tắt
+        doi_xanh();
+      } else {
+        // Xử lý khi cả cb_trai và cb_phai đều bật
+      }
+      break;
+  }
+}
+
 void loop() {
-  // int cb_do = digitalRead(nut_do);
-  // int cb_xanh = digitalRead(nut_xanh);
-  // if(cb_do == 1) san_do();
-  // if(cb_xanh == 1) san_xanh();
-  // doi_do();
-
-  // nang_70_tay_trai();
-  // nang_50_tay_trai();
-  // delay(2000);
-  // nang_tay_phai_doc_CTHT();
-
-  // nang_70_tay_phai();
-  // nang_50_tay_phai();
-  // delay(2000);
-  // nang_tay_trai_doc_CTHT();
-
-  int cb_123 = digitalRead(cb_phat_hien_bong);
-  Serial.println(cb_123);
-
-  // xu_ly_hanh_dong_lay_bong();
-
-
-
-  // // delay(200);
-  // nang_tay_phai_doc_CTHT();
-  // // delay(200);
-  // kep_tay_phai();
-  // // // delay(200);
-  // // // nang_tay_encoder(nang_tay_trai, 1);  //=> nâng lên 50%
-
-
-  // // delay(200);
-  // // nang_tay_trai_doc_CTHT();
-  // // delay(200);
-  // kep_tay_phai();
-  // // delay(200);
-  // // nang_tay_encoder(nang_tay_phai, 1);  //=> nâng lên 50%
-
-  // thuc_hien_kep_bong_tay_trai_va_kiem_tra();
-  // // nang_tay_encoder(nang_tay_trai, 1);  //=> nâng lên 50%
-
-
-
-  // while (1)
-  //   ;
-}
-
-void doi_xanh() {
-}
-void doi_do() {
-  //Xuất phát và chạy tới nơi nhận bóng
-  chay_do_encoder(chay_toi, 5850, 1, 103, 100);
-  delay(100);
-  chay_bat_line_doc_cam_bien(chay_cheo_trai, 100, 100, cb_2, cb_3);
-  //*******
-
-  //gắp bóng và chạy tới
-  xu_ly_hanh_dong_lay_bong();
-  chay_do_encoder(chay_toi, 4100, 1, 108, 100);  // => thay đọc encoder thanh đọc công tắc hành trình khi va chạm vs thanh ngăn chứa các silo
-  //*******
-
-  //chạy tới silo 1
-  chay_do_encoder(chay_trai, 800, 1, 100, 103);  //=> chạy qua khỏi line
-  chay_bat_line_doc_cam_bien(chay_trai, 100, 103, cb_2, cb_3);
-  chay_do_encoder(chay_trai, 800, 1, 100, 103);  //=> chạy qua khỏi line
-  chay_bat_line_doc_cam_bien(chay_trai, 100, 103, cb_2, cb_3);
-  //*******
-
-  //thả bóng vào slio 1 và 2
-  xu_ly_hanh_dong_chay_tha_bong(silo_1_2);
-  //*******
-
-  //chạy về điểm nhận bóng từ silo 2
-  chay_bat_line_doc_cam_bien(chay_phai, 108, 100, cb_2, cb_3);  //=> cháy tới line silo 3
-  quay_robo_90_phai(150);
-  chay_bat_line_doc_cam_bien(chay_phai, 108, 100, cb_3, cb_3);  //=> chạy tới điểm nhận bóng
-  //*******
-
-  //gắp bóng và chạy tới
-  xu_ly_hanh_dong_lay_bong();
-  chay_do_encoder(chay_toi, 4100, 1, 108, 100);  // => thay đọc encoder thanh đọc công tắc hành trình khi va chạm vs thanh ngăn chứa các silo
-  //*******
-
-  //chạy tới silo 2
-  chay_do_encoder(chay_trai, 800, 1, 100, 103);  //=> chạy qua khỏi line
-  chay_bat_line_doc_cam_bien(chay_trai, 100, 103, cb_2, cb_3);
-  //*******
-
-  //thả bóng vào slio 2 và 3
-  xu_ly_hanh_dong_chay_tha_bong(silo_2_3);
-  //*******
-
-  //chạy về điểm nhận bóng từ silo 3
-  quay_robo_90_phai(150);
-  chay_bat_line_doc_cam_bien(chay_phai, 108, 100, cb_3, cb_3);  //=> chạy tới điểm nhận bóng
-  //*******
-
-  //gắp bóng và chạy tới
-  xu_ly_hanh_dong_lay_bong();
-  chay_do_encoder(chay_toi, 4100, 1, 108, 100);  // => thay đọc encoder thanh đọc công tắc hành trình khi va chạm vs thanh ngăn chứa các silo
-  //*******
-
-  //chạy tới silo 3
-  chay_bat_line_doc_cam_bien(chay_trai, 100, 103, cb_2, cb_3);
-  //*******
-
-  //thả bóng vào slio 3
-  xu_ly_hanh_dong_chay_tha_bong(silo_3);
-  //****
-
-  while (1)
-    ;
+  int cb_do = digitalRead(nut_do);
+  int cb_xanh = digitalRead(nut_xanh);
+  if (cb_do == 1) xu_ly_chien_thuat(san_do);
+  if (cb_xanh == 1) xu_ly_chien_thuat(san_xanh);
 }

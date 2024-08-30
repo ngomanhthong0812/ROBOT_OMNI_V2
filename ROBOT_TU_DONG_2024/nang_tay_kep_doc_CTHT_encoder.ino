@@ -44,12 +44,6 @@ void nang_tay_encoder(int huong_tay_nang, int encoder_dat) {
 }
 
 void khoi_dong_nang_tay() {
-  int cb_tay_trai = digitalRead(cam_bien_tay_trai);
-  int cb_tay_phai = digitalRead(cam_bien_tay_phai);
-  if (cb_tay_trai == 0) {
-    nang_50_tay_trai();
-  }
-  if (cb_tay_phai == 0) {
-    nang_50_tay_phai();
-  }
+  nang_tay_phai_doc_CTHT();
+  nang_50_tay_trai();
 }

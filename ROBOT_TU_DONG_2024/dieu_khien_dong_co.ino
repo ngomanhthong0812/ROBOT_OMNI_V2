@@ -6,19 +6,6 @@ void set_pwm(int pwm1, int pwm2, int pwm3, int pwm4, int value1, int value2, int
 }
 
 void dieu_khien_dong_co(int huong_robot, int toc_do_trai, int toc_do_phai) {
-  // gia_tri_dau_trai = toc_do_trai;
-  // gia_tri_dau_phai = toc_do_phai;
-  // PID_phai = gia_tri_dau_phai - PID_value;
-  // PID_trai = gia_tri_dau_trai + PID_value;
-  // PID_phai = constrain(gia_tri_dau_phai - PID_value, 0, 255);
-  // PID_trai = constrain(gia_tri_dau_trai + PID_value, 0, 255);
-
-  // gia_tri_dau_trai = toc_do_trai;
-  // gia_tri_dau_phai = toc_do_phai;
-  // PID_phai_1 = gia_tri_dau_phai - PID_value_1;
-  // PID_trai_1 = gia_tri_dau_trai + PID_value_1;
-  // PID_phai_1 = constrain(gia_tri_dau_phai - PID_value_1, 0, 255);
-  // PID_trai_1 = constrain(gia_tri_dau_trai + PID_value_1, 0, 255);
   //nếu chạy 4 động cơ
   //      trái   -------- phải
   //phải  bánh 1 -------- bánh 2  trái
