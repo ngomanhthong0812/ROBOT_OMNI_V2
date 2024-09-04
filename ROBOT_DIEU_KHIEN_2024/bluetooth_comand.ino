@@ -56,10 +56,10 @@ void bluetooth_comand(char command) {
       // Hạ tay
       nang_ha_tay_kep(ha_tay_kep);
       break;
-    case '.':
+    case 'I':
       dong_tay_kep(tay_kep_trai);
       dong_tay_kep(tay_kep_phai);
-    case ',':
+    case 'U':
       mo_tay_kep(tay_kep_trai);
       mo_tay_kep(tay_kep_phai);
       break;

@@ -25,7 +25,6 @@ void nang_tay_phai_doc_CTHT() {
 }
 
 void nang_tay_encoder(int huong_tay_nang, int encoder_dat) {
-  xung_encoder_nang_tay = 0;
   do {
     switch (huong_tay_nang) {
       case nang_tay_trai:
@@ -47,3 +46,4 @@ void khoi_dong_nang_tay() {
   nang_tay_phai_doc_CTHT();
   nang_50_tay_trai();
 }
+

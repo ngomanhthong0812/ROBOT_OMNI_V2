@@ -19,8 +19,8 @@ Servo servo_phai_sau;
 #define nut_do 24
 #define nut_xanh 22
 
-#define ct_trai 28
-#define ct_phai 26
+#define ct_trai 26
+#define ct_phai 28
 
 #define pwm1_lui 7
 #define pwm1_toi 6
@@ -176,27 +176,38 @@ void setup() {
 void xu_ly_chien_thuat(int ten_san) {
   int cb_trai = digitalRead(ct_trai);
   int cb_phai = digitalRead(ct_phai);
+
   switch (ten_san) {
     case san_do:
       if (cb_trai == 0 && cb_phai == 1) {  // Xử lý khi cb_trai tắt và cb_phai bật
-        ct_1_doi_do();
+        // ct_1_doi_do();
+        Serial.println("do 01");
       } else if (cb_trai == 1 && cb_phai == 0) {  // Xử lý khi cb_trai bật và cb_phai tắt
-        ct_2_doi_do();
+        // ct_2_doi_do();
+        Serial.println("do 10");
       } else if (cb_trai == 0 && cb_phai == 0) {  // Xử lý khi cả cb_trai và cb_phai đều tắt
-        doi_do();
+                                                  // doi_do();
+        Serial.println("do 00");
       } else {
         // Xử lý khi cả cb_trai và cb_phai đều bật
+        Serial.println("do 11");
       }
       break;
     case san_xanh:
       if (cb_trai == 0 && cb_phai == 1) {  // Xử lý khi cb_trai tắt và cb_phai bật
-        ct_1_doi_xanh();
+                                           // ct_1_doi_xanh();
+        Serial.println("xanh 01");
+
       } else if (cb_trai == 1 && cb_phai == 0) {  // Xử lý khi cb_trai bật và cb_phai tắt
-        ct_2_doi_xanh();
+                                                  // ct_2_doi_xanh();
+        Serial.println("xanh 10");
+
       } else if (cb_trai == 0 && cb_phai == 0) {  // Xử lý khi cả cb_trai và cb_phai đều tắt
-        doi_xanh();
+                                                  // doi_xanh();
+        Serial.println("xanh 00");
       } else {
         // Xử lý khi cả cb_trai và cb_phai đều bật
+        Serial.println("xanh 11");
       }
       break;
   }
@@ -205,6 +216,26 @@ void xu_ly_chien_thuat(int ten_san) {
 void loop() {
   int cb_do = digitalRead(nut_do);
   int cb_xanh = digitalRead(nut_xanh);
-  if (cb_do == 1) xu_ly_chien_thuat(san_do);
-  if (cb_xanh == 1) xu_ly_chien_thuat(san_xanh);
+
+  // Serial.println(cb_do);
+  // Serial.println(cb_xanh);
+  if (cb_do == 0) {
+    Serial.println(cb_do);
+    xu_ly_chien_thuat(san_do);
+  }
+  if (cb_xanh == 0) {
+    Serial.println(cb_xanh);
+    xu_ly_chien_thuat(san_xanh);
+  }
+  // chay_bat_line_nang_tay_phai_70(chay_toi, 100, 100, cb_2, cb_3);
+  // chay_bat_line_nang_tay_trai_30(chay_toi, 100, 100, cb_2, cb_3);
+  // chay_bat_line_nang_tay_phai_100(chay_toi, 100, 100, cb_2, cb_3);
+
+  // int cb_trai = digitalRead(ct_trai);
+  // int cb_phai = digitalRead(ct_phai);
+
+  // Serial.println(cb_trai);
+  // Serial.println(cb_phai);
+  // kiem_tra_co_bong();
+  // while(1);
 }

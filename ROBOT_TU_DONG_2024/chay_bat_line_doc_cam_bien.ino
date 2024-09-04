@@ -22,5 +22,5 @@ void chay_thoat_line_doc_cam_bien(int huong_robot, int toc_do_trai, int toc_do_p
   } while (tt_cam_bien0 == 1 || tt_cam_bien1 == 1);
   dung_dong_co();
   // chạy tới đọc encoder
-  chay_do_encoder(chay_toi, 300, 1, 100, 100);
+  chay_do_encoder(chay_toi, 280, 1, 100, 100);
 }

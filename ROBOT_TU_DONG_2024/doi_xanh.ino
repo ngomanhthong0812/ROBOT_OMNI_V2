@@ -34,9 +34,8 @@ void doi_xanh() {
                                                                 //*******
 
   //gắp bóng và chạy tới
-  chay_do_encoder(chay_phai, 50, 1, 100, 103);
+  chay_do_encoder(chay_phai, 40, 1, 100, 103);
   chay_thoat_line_doc_cam_bien(chay_lui, 100, 108, cb_2, cb_3);
-  nang_50_tay_phai();
   xu_ly_hanh_dong_lay_bong_doi_xanh();
   chay_toi_bat_cam_bien_dau();  // => chạy tới khi nào chạm vật cản
   //*******
@@ -51,13 +50,17 @@ void doi_xanh() {
   //*******
 
   //chạy về điểm nhận bóng từ silo 3
+  chay_do_encoder(chay_lui, 250, 1, 100, 103);
   quay_robo_90_trai(150);
   chay_bat_line_doc_cam_bien(chay_trai, 100, 100, cb_3, cb_3);  //=> chạy tới điểm nhận bóng
   //*******
 
   //gắp bóng và chạy tới
+  chay_do_encoder(chay_phai, 40, 1, 100, 103);
   chay_thoat_line_doc_cam_bien(chay_lui, 100, 108, cb_2, cb_3);
+  nang_50_tay_phai();
   xu_ly_hanh_dong_lay_bong_doi_xanh();
+  chay_do_encoder(chay_toi, 4000, 1, 100, 100);
   chay_toi_bat_cam_bien_dau();  // => chạy tới khi nào chạm vật cản
   //*******
 
@@ -113,6 +116,7 @@ void ct_1_doi_xanh() {
   chay_thoat_line_doc_cam_bien(chay_lui, 100, 108, cb_2, cb_3);
   nang_50_tay_phai();
   xu_ly_hanh_dong_lay_bong_doi_xanh();
+  chay_do_encoder(chay_toi, 4000, 1, 100, 100);
   chay_toi_bat_cam_bien_dau();  // => chạy tới khi nào chạm vật cản
   //*******
   ///------------------
@@ -126,7 +130,7 @@ void ct_1_doi_xanh() {
   //****
 
   //chạy về điểm nhận bóng từ silo 3
-  nang_50_tay_phai();
+  chay_do_encoder(chay_lui, 250, 1, 100, 103);
   quay_robo_90_trai(150);
   chay_bat_line_doc_cam_bien(chay_trai, 100, 100, cb_3, cb_3);  //=> chạy tới điểm nhận bóng
   //*******
@@ -137,6 +141,7 @@ void ct_1_doi_xanh() {
   chay_thoat_line_doc_cam_bien(chay_lui, 100, 108, cb_2, cb_3);
   nang_50_tay_phai();
   xu_ly_hanh_dong_lay_bong_doi_xanh();
+  chay_do_encoder(chay_toi, 4000, 1, 100, 100);
   chay_toi_bat_cam_bien_dau();  // => chạy tới khi nào chạm vật cản
   //*******
   ///------------------
@@ -163,6 +168,7 @@ void ct_2_doi_xanh() {
 
   //gắp bóng và chạy tới
   xu_ly_hanh_dong_lay_bong_doi_xanh();
+  chay_do_encoder(chay_toi, 4000, 1, 100, 100);
   chay_toi_bat_cam_bien_dau();  // => chạy tới khi nào chạm vật cản
   //*******
   ////----------------------------------
@@ -176,7 +182,7 @@ void ct_2_doi_xanh() {
   //*******
 
   //chạy về điểm nhận bóng từ silo 3
-  nang_50_tay_phai();
+  chay_do_encoder(chay_lui, 250, 1, 100, 103);
   quay_robo_90_trai(150);
   chay_bat_line_doc_cam_bien(chay_trai, 100, 100, cb_3, cb_3);  //=> chạy tới điểm nhận bóng
   //*******
@@ -187,6 +193,7 @@ void ct_2_doi_xanh() {
   chay_thoat_line_doc_cam_bien(chay_lui, 100, 108, cb_2, cb_3);
   nang_50_tay_phai();
   xu_ly_hanh_dong_lay_bong_doi_xanh();
+  chay_do_encoder(chay_toi, 4000, 1, 100, 100);
   chay_toi_bat_cam_bien_dau();  // => chạy tới khi nào chạm vật cản
   //*******
   ///------------------
@@ -200,7 +207,7 @@ void ct_2_doi_xanh() {
   //****
 
   //chạy về điểm nhận bóng từ silo 3
-  nang_50_tay_phai();
+  chay_do_encoder(chay_lui, 250, 1, 100, 103);
   quay_robo_90_trai(150);
   chay_bat_line_doc_cam_bien(chay_trai, 100, 100, cb_3, cb_3);  //=> chạy tới điểm nhận bóng
   //*******
